@@ -5,11 +5,10 @@ $color-primary: #3893B1;
 $color-accent: #013876;
 
 
-body {
+body, input, button {
   color: $color-text;
   background-color: $color-background;
-  margin: 0;
-  padding: 0;
+ 
   font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -26,4 +25,16 @@ ul {
   list-style-type: none; 
 }
 
+input[type=text] {
+  border: none;
+  border-bottom: 2px solid $color-text-strong; 
+}
 
+input[type=text]:focus {
+  outline: none;
+}
+
+button {
+  border: none;
+  color: $color-primary; 
+}
