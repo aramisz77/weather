@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import Cities from './Cities';
 
-const Index = () => <h2>Index</h2>;
 const About = () => <h2>About</h2>;
 
 class App extends Component {
@@ -9,7 +9,7 @@ class App extends Component {
     return (
       <Router>
         <Switch>
-          <Route path="/" exact component={Index} />
+          <Route path="/" exact component={Cities} />
           <Route path="/about/" component={About} />         
         </Switch>
       </Router>
