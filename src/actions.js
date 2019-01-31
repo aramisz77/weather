@@ -1,17 +1,9 @@
-export const SET_SEARCH = 'SET_SEARCH';
 export const ADD_CITY = 'ADD_CITY';
 
 export function addCity(city) {
     return {
         type: ADD_CITY,
         city
-    }
-}
-
-export function setSearch(search) {
-    return {
-        type: SET_SEARCH,
-        search
     }
 }
 

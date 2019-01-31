@@ -1,4 +1,4 @@
-import { SET_SEARCH, ADD_CITY } from './actions'
+import { ADD_CITY } from './actions'
 import { combineReducers } from 'redux';
 
 function cities(state = [], action) {
@@ -10,19 +10,8 @@ function cities(state = [], action) {
     }
 }
 
-function search(state = '', action) {
-    switch (action.type) {
-        case SET_SEARCH:
-            return action.search;
-        default:
-            return state;
-    }
-}
-
-
 const rootReducer = combineReducers(
-    {
-        search,
+    {      
         cities
     }
 )
