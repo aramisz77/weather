@@ -6,10 +6,12 @@ class Cities extends Component {
     render() {
         const cities = this.props.cities;
         return (
-            <ul>
-                {cities.map(city => { return (<li key={city}><Link className='link' to="/about">{city}</Link></li>); })}
-                <li key='+'><Link className='link' to='/addcity'>+</Link></li>
-            </ul>
+            <div className="offset-by-one-third one-third column">           
+                <ul>
+                    {cities.map(city => { return (<li key={city}><Link className='link' to={`/weather/${city}`}>{city}</Link></li>); })}
+                    <li key='+'><Link className='link' to='/addcity'>+</Link></li>
+                </ul>
+            </div>
         );
     }
 }

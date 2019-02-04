@@ -1,4 +1,4 @@
-import { ADD_CITY } from './actions'
+import { ADD_CITY, ADD_WEATHER } from './actions'
 import { combineReducers } from 'redux';
 
 function cities(state = [], action) {
@@ -10,9 +10,19 @@ function cities(state = [], action) {
     }
 }
 
+function weather(state = {}, action) {
+    switch (action.type) {
+        case ADD_WEATHER:
+            return { ...state, ...{ [action.weather.name]: action.weather } };
+        default:
+            return state;
+    }
+}
+
 const rootReducer = combineReducers(
-    {      
-        cities
+    {
+        cities,
+        weather
     }
 )
 

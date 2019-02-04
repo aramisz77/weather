@@ -13,8 +13,10 @@ class AddCity extends Component {
 
     cityclick = (city) => { this.setState({ searchterm: city }) }
 
+    back = () => { this.props.history.goBack() }
+
     save = () => {
-        this.props.addCity(this.state.searchterm);        
+        this.props.addCity(this.state.searchterm);
         this.props.history.push('/');
     }
 
@@ -27,19 +29,24 @@ class AddCity extends Component {
         const selected = (cityoptions.length === 1) && (cityoptions[0] === this.state.searchterm);
         return (
             <>
-                <input type='text'
-                    value={this.state.searchterm}
-                    onChange={this.valueChange}
-                    ref={this.searchInput}
-                />
-                {!selected &&
-                    <ul>
-                        {cityoptions.map(city => { return (<li key={city} onClick={() => { this.cityclick(city) }}>{city}</li>); })}
-                    </ul>
-                }
-                {selected &&
-                    <button onClick={this.save}>Save</button>
-                }
+                <div className="navbar">
+                    <img src="/arrow-back.png" alt="back" onClick={this.back}></img>
+                </div>
+                <div className="offset-by-one-third one-third column">
+                    <input type='text'
+                        value={this.state.searchterm}
+                        onChange={this.valueChange}
+                        ref={this.searchInput}
+                    />
+                    {!selected &&
+                        <ul>
+                            {cityoptions.map(city => { return (<li key={city} onClick={() => { this.cityclick(city) }}>{city}</li>); })}
+                        </ul>
+                    }
+                    {selected &&
+                        <button onClick={this.save}>Save</button>
+                    }
+                </div>
             </>
         );
     }

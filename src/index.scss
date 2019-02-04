@@ -1,3 +1,5 @@
+@import './assets/css/weather-icons.min.css';
+
 $color-background: 	#132434;
 $color-text: #93B7CC;
 $color-text-strong: #267DBD;
@@ -8,7 +10,8 @@ $color-accent: #013876;
 body, input, button {
   color: $color-text;
   background-color: $color-background;
- 
+  font-size: 150%;
+
   font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -37,4 +40,55 @@ input[type=text]:focus {
 button {
   border: none;
   color: $color-primary; 
+}
+
+
+
+img {
+  height: 100%;
+}
+
+.navbar {
+  height: 40px;   
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+  box-sizing: border-box; }
+.column,
+.columns {
+  width: 100%;
+  float: left;
+  box-sizing: border-box; }
+
+/* For devices larger than 400px */
+@media (min-width: 400px) {
+  .container {
+    width: 85%;
+    padding: 0; }
+  
+}
+
+/* For devices larger than 768px */
+@media (min-width: 768px) {
+  .container {
+    width: 80%; }
+  .column,
+  .columns {
+    margin-left: 4%; }
+  .column:first-child,
+  .columns:first-child {
+    margin-left: 0; }
+  
+  .one-third.column               { width: 30.6666666667%; }  
+
+  .offset-by-one-third.column    { margin-left: 34.6666666667%; }
+
+  .navbar {
+    height: 70px;   
+}
 }
