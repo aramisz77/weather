@@ -7,6 +7,7 @@ import * as serviceWorker from './serviceWorker';
 import rootReducer from './reducers';
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
+import { fetchLocale } from './actions';
 
 const loadState = () => {
     try {
@@ -33,7 +34,9 @@ const store = createStore(rootReducer, loadState(), applyMiddleware(thunkMiddlew
 
 store.subscribe(() => {
     saveState(store.getState());
-  });
+});
+
+store.dispatch(fetchLocale());
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 

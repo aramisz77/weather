@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addCity } from './actions';
+import { addCity, fetchWeather } from './actions';
 import { capitalsearch } from './captials';
 
 class AddCity extends Component {
@@ -17,6 +17,7 @@ class AddCity extends Component {
 
     save = () => {
         this.props.addCity(this.state.searchterm);
+        this.props.fetchWeather(this.state.searchterm);
         this.props.history.push('/');
     }
 
@@ -53,7 +54,7 @@ class AddCity extends Component {
 
 }
 
-const mapActions = { addCity };
+const mapActions = { addCity, fetchWeather };
 
 const mapState = (state) => {
     return {

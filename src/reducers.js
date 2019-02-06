@@ -19,6 +19,8 @@ function weather(state = {}, action) {
     }
 }
 
+
+
 const rootReducer = combineReducers(
     {
         cities,

@@ -1,17 +1,46 @@
-@import './assets/css/weather-icons.min.css';
-
 $color-background: 	#132434;
 $color-text: #93B7CC;
-$color-text-strong: #267DBD;
+$color-strong: #267DBD;
 $color-primary: #3893B1;
 $color-accent: #013876;
 
+.color-strong {
+  color: $color-strong;
+}
+
+.color-primary {
+  color: $color-primary;
+}
+
+.color-accent {
+  color: $color-accent;
+}
+
+.size-s {
+  font-size: 15px;
+}
+
+.size-m {
+  font-size: 40px;
+}
+
+.size-l {
+  font-size: 80px;
+}
+
+.center {
+  text-align: center;
+}
+
+
+html {
+  font-size: 150%;
+}
 
 body, input, button {
   color: $color-text;
   background-color: $color-background;
-  font-size: 150%;
-
+  
   font-family: 'Roboto', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -30,7 +59,7 @@ ul {
 
 input[type=text] {
   border: none;
-  border-bottom: 2px solid $color-text-strong; 
+  border-bottom: 2px solid $color-strong; 
 }
 
 input[type=text]:focus {
@@ -41,7 +70,6 @@ button {
   border: none;
   color: $color-primary; 
 }
-
 
 
 img {
@@ -92,3 +120,7 @@ img {
     height: 70px;   
 }
 }
+
+@import './AddCity.scss';
+@import './Weather.scss';
+@import './assets/css/weather-icons.min.css';

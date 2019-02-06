@@ -21,14 +21,25 @@ export function addWeather(weather) {
 
 export function fetchWeather(city) {
     return function (dispatch, getState) {
-        const prevWeather = getState().weather[city];
-        console.log(prevWeather);
-        if (!prevWeather || prevWeather.dt > Date.now() - 60 * 60 * 1000) { 
+        const prevWeather = getState().weather[city];        
+        if (!prevWeather || prevWeather.dt < (Date.now() - 2 * 60 * 60 * 1000) / 1000) {
             return axios(`http://api.openweathermap.org/data/2.5/weather?q=${city}&&APPID=ab0fca70638faafd99f126803413d206`).then(
-                res => { console.log(res); dispatch(addWeather(res.data)) },
+                res => { dispatch(addWeather(res.data)) },
                 err => console.error(err)
             )
         }
-       
+
+    }
+}
+
+export function fetchLocale() {
+    return function (dispatch) {
+
+        return axios(`https://api.ipdata.co/?api-key=test`).then(
+            res => {  },
+            err => console.error(err)
+        )
+
+
     }
 }
