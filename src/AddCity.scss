@@ -1,0 +1,34 @@
+.addcity {
+    margin:4rem auto;
+    width: 100%;
+}
+
+.addcity__list {  
+    margin: 0;
+    padding: 1rem 0;
+}
+
+.addcity__selecteditem {
+    color: $color-background;
+    background-color: $color-text;
+}
+
+.addcity__input {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid $color-strong;
+    outline: none;    
+}
+
+.addcity__button {
+    border: none;   
+    padding: 1rem 0; 
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+@media (min-width: 550px) {
+    .addcity {
+      width: 33%;
+    }
+}

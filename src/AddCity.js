@@ -2,18 +2,50 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addCity, fetchWeather } from './actions';
 import { capitalsearch } from './captials';
+import Navbar from './Navbar';
 
 class AddCity extends Component {
 
-    state = { searchterm: '' }
+    state = {
+        searchterm: '',
+        option: 0,
+        cityoptions: []
+    }
 
     searchInput = React.createRef();
 
-    valueChange = (evt) => { this.setState({ searchterm: evt.target.value }) }
 
-    cityclick = (city) => { this.setState({ searchterm: city }) }
+    setOption = (val) => {
+            if (val > -1 && val < this.state.cityoptions.length) {
+            this.setState({ option: val })
+        }
+    }
 
-    back = () => { this.props.history.goBack() }
+    keydown = (evt) => {
+        const key = evt.key;
+        const keys = {
+            'ArrowUp': () => { this.setOption(this.state.option - 1) },
+            'ArrowDown': () => { this.setOption(this.state.option + 1) },
+            'Enter': () => {
+                const city = this.state.cityoptions[this.state.option];
+                if (city) { this.cityclick(city) }
+            }
+        }
+
+        if (key in keys) {
+            evt.preventDefault();
+            keys[key]();
+        }
+
+    }
+
+    cityclick = (searchterm) => {
+        const option = 0;
+        const cityoptions = capitalsearch(searchterm, this.props.cities);
+        this.setState({ searchterm, option, cityoptions });
+    }
+
+ 
 
     save = () => {
         this.props.addCity(this.state.searchterm);
@@ -26,26 +58,27 @@ class AddCity extends Component {
     }
 
     render() {
-        const cityoptions = capitalsearch(this.state.searchterm, this.props.cities);
+        const cityoptions = this.state.cityoptions;
         const selected = (cityoptions.length === 1) && (cityoptions[0] === this.state.searchterm);
         return (
             <>
-                <div className="navbar">
-                    <img src="/arrow-back.png" alt="back" onClick={this.back}></img>
-                </div>
-                <div className="offset-by-one-third one-third column">
-                    <input type='text'
+                <Navbar></Navbar>
+                <div className="addcity">
+                    <input className="addcity__input" type='text'
                         value={this.state.searchterm}
-                        onChange={this.valueChange}
+                        onChange={(evt) => { this.cityclick(evt.target.value) }}
+                        onKeyDown={this.keydown}
                         ref={this.searchInput}
                     />
                     {!selected &&
-                        <ul>
-                            {cityoptions.map(city => { return (<li key={city} onClick={() => { this.cityclick(city) }}>{city}</li>); })}
+                        <ul className="addcity__list">
+                            {cityoptions.map(
+                                (city, index) => { return (<li key={city} className={this.state.option === index ? 'addcity__selecteditem' : ''} onClick={() => { this.cityclick(city) }}>{city}</li>); }
+                            )}
                         </ul>
                     }
                     {selected &&
-                        <button onClick={this.save}>Save</button>
+                        <button className="addcity__button color-primary" onClick={this.save}>Save</button>
                     }
                 </div>
             </>

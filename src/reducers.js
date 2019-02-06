@@ -4,7 +4,7 @@ import { combineReducers } from 'redux';
 function cities(state = [], action) {
     switch (action.type) {
         case ADD_CITY:
-            return [action.city, ...state];
+            return [action.city, ...state].sort();
         default:
             return state;
     }

@@ -20,3 +20,8 @@ export function getcapitalTZ(capital) {
     const TZ = country.timezones.find(timezone => timezone.indexOf(capital) > -1) || country.timezones[0];
     return TZ;
 }
+
+export function getcapital(countrycode) {
+    const country = countries.find(country => country.country_code === countrycode);
+    return country ? country.capital : undefined;
+}

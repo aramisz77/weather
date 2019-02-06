@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { fetchWeather } from './actions'
 import { getcapitalTZ } from './captials';
 import * as moment from 'moment-timezone';
+import Navbar from './Navbar';
 
 class Weather extends Component {
 
@@ -10,9 +11,7 @@ class Weather extends Component {
 
     state = { hours: '', minutes: '' }
 
-    timer
-
-    back = () => { this.props.history.goBack() }
+    timer   
 
     update = () => {
         this.props.fetchWeather(this.city);
@@ -42,10 +41,7 @@ class Weather extends Component {
         } else {
             return (
                 <>
-
-                    <div className="navbar">
-                        <img src="/arrow-back.png" alt="back" onClick={this.back}></img>
-                    </div>
+                    <Navbar></Navbar>
                     <div className="weathercontainer">
                         <div className="weather center">
                             <div className="color-strong size-m">{this.state.hours}<br />{this.state.minutes}</div>
@@ -89,7 +85,7 @@ class Weather extends Component {
 
 const mapState = (state) => {
     return {
-        weather: state.weather        
+        weather: state.weather
     }
 }
 
