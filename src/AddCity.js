@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addCity, fetchWeather } from './actions';
+import { fetchWeather } from './actions';
 import { capitalsearch } from './captials';
 import Navbar from './Navbar';
 
@@ -48,8 +48,7 @@ class AddCity extends Component {
  
 
     save = () => {
-        this.props.addCity(this.state.searchterm);
-        this.props.fetchWeather(this.state.searchterm);
+        this.props.fetchWeather(this.state.searchterm);        
         this.props.history.push('/');
     }
 
@@ -87,11 +86,12 @@ class AddCity extends Component {
 
 }
 
-const mapActions = { addCity, fetchWeather };
+const mapActions = { fetchWeather };
 
 const mapState = (state) => {
     return {
-        cities: state.cities
+        weather: state.weather,
+        cities: Object.keys(state.weather)
     }
 }
 

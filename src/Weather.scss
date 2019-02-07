@@ -1,7 +1,11 @@
 .weather {
     margin:auto;
-    width: 5rem;
     padding-bottom: 2rem;   
+    min-width: 5rem;
+}
+
+.weather_fixed {
+    width: 5rem;
 }
 
 .weather__data {   

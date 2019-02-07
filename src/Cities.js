@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 
 class Cities extends Component {
     render() {
+        
         const cities = this.props.cities;
         return (
             <div className="cities center">           
@@ -18,7 +19,7 @@ class Cities extends Component {
 
 const mapState = (state) => {
     return {
-        cities: state.cities
+        cities: Object.keys(state.weather)
     }
 }
 

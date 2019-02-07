@@ -16,9 +16,9 @@ export function capitalsearch(searchTerm, excluded) {
 }
 
 export function getcapitalTZ(capital) {
-    const country = countries.find(country => country.capital === capital);
-    const TZ = country.timezones.find(timezone => timezone.indexOf(capital) > -1) || country.timezones[0];
-    return TZ;
+    const country = countries.find(country => country.capital === capital);    
+    return country ? country.timezones.find(timezone => timezone.indexOf(capital) > -1) || country.timezones[0] : Intl.DateTimeFormat().resolvedOptions().timeZone;
+
 }
 
 export function getcapital(countrycode) {

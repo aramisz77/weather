@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { fetchWeather } from './actions'
-import { getcapitalTZ } from './captials';
 import * as moment from 'moment-timezone';
 import Navbar from './Navbar';
 
@@ -11,20 +10,27 @@ class Weather extends Component {
 
     state = { hours: '', minutes: '' }
 
-    timer   
+    timer
+
+    updateClock = () => {
+        const weather = this.props.weather;
+        if (weather) {
+            const time = moment().tz(weather.timezone);
+            const hours = time.format('HH');
+            const minutes = time.format('mm');
+
+            this.setState({ hours, minutes });
+        }
+    }
 
     update = () => {
         this.props.fetchWeather(this.city);
-        const time = moment().tz(getcapitalTZ(this.city));
-        const hours = time.hours();
-        const minutes = time.minutes();
-
-        this.setState({ hours, minutes });
+        this.updateClock();
     }
 
     componentDidMount() {
         this.update();
-        this.timer = setInterval(this.update, 5000);
+        this.timer = setInterval(this.update, 1000);
     }
 
     componentWillUnmount() {
@@ -33,11 +39,11 @@ class Weather extends Component {
 
     render() {
 
-        const weather = this.props.weather[this.city];
-
+        const weather = this.props.weather;
+        const loading = <div className="center size-s color-primary">loading...</div>;
 
         if (!weather) {
-            return (<div>loading</div>)
+            return (loading)
         } else {
             return (
                 <>
@@ -45,37 +51,45 @@ class Weather extends Component {
                     <div className="weathercontainer">
                         <div className="weather center">
                             <div className="color-strong size-m">{this.state.hours}<br />{this.state.minutes}</div>
-                            {this.city}
+                            <div>{this.city}</div>
                         </div>
                         <div className="weather center">
-                            <div className="color-primary size-l">
-                                <i className={`wi wi-owm-${weather.weather[0].id}`}></i>
-                            </div>
+                            {weather.timestamp &&
+                                <>
+                                    <div className="color-primary size-l">
+                                        <i className={`wi wi-owm-${weather.code}`}></i>
+                                    </div>
 
-                            <div className="size-s">{weather.weather[0].description}</div>
+                                    <div className="size-s">{weather.description}</div>
+                                </>
+                            }
                         </div>
-                        <div className="weather">
-                            <div>
-                                <i className="wi wi-fw wi-thermometer color-accent"></i>
-                                <span className="weather__data color-primary">
-                                    {Number(weather.main.temp - 273.15).toFixed(0)} <i className="wi wi-celsius"></i>
-                                </span>
-                            </div>
-                            <div>
-                                <i className="wi wi-fw wi-sunrise color-accent"></i>
-                                <span className="weather__data color-primary">
-                                    {moment(weather.sys.sunrise * 1000).tz(getcapitalTZ(this.city)).format('HH:mm')}
-                                </span>
-                            </div>
-                            <div>
-                                <i className="wi wi-fw wi-sunset color-accent"></i>
-                                <span className="weather__data color-primary">
-                                    {moment(weather.sys.sunset * 1000).tz(getcapitalTZ(this.city)).format('HH:mm')}
-                                </span>
-                            </div>
+                        <div className="weather weather_fixed">
+                            {weather.timestamp &&
+                                <>
+                                    <div>
+                                        <i className="wi wi-fw wi-thermometer color-accent"></i>
+                                        <span className="weather__data color-primary">
+                                            {weather.temperature} <i className="wi wi-celsius"></i>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <i className="wi wi-fw wi-sunrise color-accent"></i>
+                                        <span className="weather__data color-primary">
+                                            {weather.sunrise}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <i className="wi wi-fw wi-sunset color-accent"></i>
+                                        <span className="weather__data color-primary">
+                                            {weather.sunset}
+                                        </span>
+                                    </div>
+                                </>
+                            }
                         </div>
                     </div>
-
+                    {!weather.timestamp && loading}
                 </>
             );
         }
@@ -83,9 +97,9 @@ class Weather extends Component {
 }
 
 
-const mapState = (state) => {
+const mapState = (state, props) => {
     return {
-        weather: state.weather
+        weather: state.weather[props.match.params.city]
     }
 }
 
