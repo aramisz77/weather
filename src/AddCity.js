@@ -1,34 +1,38 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchWeather } from './actions';
-import { capitalsearch } from './captials';
+import { searchCapital } from './captials';
 import Navbar from './Navbar';
 
 class AddCity extends Component {
 
     state = {
-        searchterm: '',
-        option: 0,
-        cityoptions: []
+        searchTerm: '',
+        currentOption: 0,
+        cityOptions: []
     }
 
     searchInput = React.createRef();
 
-
-    setOption = (val) => {
-            if (val > -1 && val < this.state.cityoptions.length) {
-            this.setState({ option: val })
-        }
+    componentDidMount() {
+        this.searchInput.current.focus();
     }
 
-    keydown = (evt) => {
+    searchChange = (searchTerm) => {
+        const currentOption = 0;
+        const cityOptions = searchCapital(searchTerm, this.props.cities);
+        this.setState({ searchTerm, currentOption, cityOptions });
+    }
+
+    searchKeyDown = (evt) => {
         const key = evt.key;
         const keys = {
-            'ArrowUp': () => { this.setOption(this.state.option - 1) },
-            'ArrowDown': () => { this.setOption(this.state.option + 1) },
+            'ArrowUp': () => { this.setOption(this.state.currentOption - 1) },
+            'ArrowDown': () => { this.setOption(this.state.currentOption + 1) },
             'Enter': () => {
-                const city = this.state.cityoptions[this.state.option];
-                if (city) { this.cityclick(city) }
+                if (this.canSave()) return this.saveClick();
+                const city = this.state.cityOptions[this.state.currentOption];
+                if (city) { this.searchChange(city) }
             }
         }
 
@@ -39,45 +43,47 @@ class AddCity extends Component {
 
     }
 
-    cityclick = (searchterm) => {
-        const option = 0;
-        const cityoptions = capitalsearch(searchterm, this.props.cities);
-        this.setState({ searchterm, option, cityoptions });
+    setOption = (val) => {
+        if (val > -1 && val < this.state.cityOptions.length) {
+            this.setState({ currentOption: val })
+        }
     }
 
- 
-
-    save = () => {
-        this.props.fetchWeather(this.state.searchterm);        
+    saveClick = () => {
+        this.props.fetchWeather(this.state.searchTerm);
         this.props.history.push('/');
     }
 
-    componentDidMount() {
-        this.searchInput.current.focus();
+    canSave = () => {
+        return (this.state.cityOptions.length === 1) && (this.state.cityOptions[0] === this.state.searchTerm);
     }
 
-    render() {
-        const cityoptions = this.state.cityoptions;
-        const selected = (cityoptions.length === 1) && (cityoptions[0] === this.state.searchterm);
+    render() {        
+        const canSave = this.canSave();
         return (
             <>
                 <Navbar></Navbar>
                 <div className="addcity">
-                    <input className="addcity__input" type='text'
-                        value={this.state.searchterm}
-                        onChange={(evt) => { this.cityclick(evt.target.value) }}
-                        onKeyDown={this.keydown}
+                    <input className="addcity__input"
+                        type='text'
+                        value={this.state.searchTerm}
+                        onChange={(evt) => { this.searchChange(evt.target.value) }}
+                        onKeyDown={this.searchKeyDown}
                         ref={this.searchInput}
                     />
-                    {!selected &&
+                    {!canSave &&
                         <ul className="addcity__list">
-                            {cityoptions.map(
-                                (city, index) => { return (<li key={city} className={this.state.option === index ? 'addcity__selecteditem' : ''} onClick={() => { this.cityclick(city) }}>{city}</li>); }
+                            {this.state.cityOptions.map(
+                                (city, index) => {
+                                    return <li key={city} className={this.state.currentOption === index ? 'addcity__selecteditem' : ''} onClick={() => { this.searchChange(city) }}>
+                                        {city}
+                                    </li>;
+                                }
                             )}
                         </ul>
                     }
-                    {selected &&
-                        <button className="addcity__button color-primary" onClick={this.save}>Save</button>
+                    {canSave &&
+                        <button className="addcity__button color-primary" onClick={this.saveClick}>Save</button>
                     }
                 </div>
             </>
@@ -90,7 +96,6 @@ const mapActions = { fetchWeather };
 
 const mapState = (state) => {
     return {
-        weather: state.weather,
         cities: Object.keys(state.weather)
     }
 }

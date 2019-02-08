@@ -7,36 +7,14 @@ import * as serviceWorker from './serviceWorker';
 import rootReducer from './reducers';
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
-import { fetchMyCapital } from './actions';
-
-const loadState = () => {
-    try {
-        const serializedState = localStorage.getItem('state');
-        if (serializedState === null) {
-            return undefined;
-        }
-        return JSON.parse(serializedState);
-    } catch (err) {
-        return undefined;
-    }
-};
-
-const saveState = (state) => {
-    try {
-        const serializedState = JSON.stringify(state);
-        localStorage.setItem('state', serializedState);
-    } catch {
-        // ignore write errors
-    }
-};
+import { fetchLocalWeather } from './actions';
+import { loadState, saveState } from './persistent';
 
 const store = createStore(rootReducer, loadState(), applyMiddleware(thunkMiddleware));
 
-store.subscribe(() => {
-    saveState(store.getState());
-});
+store.subscribe(() => { saveState(store.getState()); });
 
-store.dispatch(fetchMyCapital());
+store.dispatch(fetchLocalWeather());
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 

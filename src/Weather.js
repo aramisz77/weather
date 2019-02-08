@@ -6,35 +6,28 @@ import Navbar from './Navbar';
 
 class Weather extends Component {
 
+    state = { hours: '', minutes: '' };
     city = this.props.match.params.city;
+    timer;
 
-    state = { hours: '', minutes: '' }
+    componentDidMount() {
+        this.updateWeatherAndClock();
+        this.timer = setInterval(this.updateWeatherAndClock, 1000);
+    }
 
-    timer
+    componentWillUnmount() {
+        clearInterval(this.timer);
+    }
 
-    updateClock = () => {
+    updateWeatherAndClock = () => {
+        this.props.fetchWeather(this.city);
         const weather = this.props.weather;
         if (weather) {
             const time = moment().tz(weather.timezone);
             const hours = time.format('HH');
             const minutes = time.format('mm');
-
             this.setState({ hours, minutes });
         }
-    }
-
-    update = () => {
-        this.props.fetchWeather(this.city);
-        this.updateClock();
-    }
-
-    componentDidMount() {
-        this.update();
-        this.timer = setInterval(this.update, 1000);
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.timer);
     }
 
     render() {

@@ -13,7 +13,7 @@
 }
 
 
-@media (min-width: 550px) {
+@media (min-width: $screen-large) {
     .weathercontainer {
         display: flex;    
         flex-direction: row;

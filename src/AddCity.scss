@@ -22,12 +22,13 @@
 
 .addcity__button {
     border: none;   
+    outline: 0;
     padding: 1rem 0; 
     text-transform: uppercase;
     font-weight: bold;
 }
 
-@media (min-width: 550px) {
+@media (min-width: $screen-large) {
     .addcity {
       width: 33%;
     }

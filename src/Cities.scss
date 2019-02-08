@@ -21,7 +21,7 @@
     font-weight: bold;
 }
 
-@media (min-width: 550px) {
+@media (min-width: $screen-large) {
     .cities {
       width: 33%;
       padding-top: 5rem;
