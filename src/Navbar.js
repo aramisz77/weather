@@ -8,7 +8,7 @@ class Navbar extends Component {
     render() {
         return (
             <div className="navbar">
-                <img className="navbar__back" src="/arrow-back.png" alt="back" onClick={this.back}></img>
+                <div className="navbar__back" onClick={this.back}></div>
             </div>
         );
     }

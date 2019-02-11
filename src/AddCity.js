@@ -8,7 +8,7 @@ class AddCity extends Component {
 
     state = {
         searchTerm: '',
-        currentOption: 0,
+        currentOption: -1,
         cityOptions: []
     }
 
@@ -19,7 +19,7 @@ class AddCity extends Component {
     }
 
     searchChange = (searchTerm) => {
-        const currentOption = 0;
+        const currentOption = -1;
         const cityOptions = searchCapital(searchTerm, this.props.cities);
         this.setState({ searchTerm, currentOption, cityOptions });
     }
@@ -44,7 +44,7 @@ class AddCity extends Component {
     }
 
     setOption = (val) => {
-        if (val > -1 && val < this.state.cityOptions.length) {
+        if (val >= -1 && val < this.state.cityOptions.length) {
             this.setState({ currentOption: val })
         }
     }

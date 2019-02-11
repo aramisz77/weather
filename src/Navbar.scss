@@ -3,8 +3,12 @@
     margin: 0.5rem 0 1rem 0;
 }
 
-.navbar__back {
+.navbar__back {    
+    background-image: url("/arrow-back.png");
+    background-repeat: no-repeat;   
+    background-size: contain;
     height: 80%;
+    width: 10%;
 }
 
 @media (min-width: $screen-large) {
