@@ -1,22 +1,25 @@
 import countries from './assets/countries.json';
+import { of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 /**
  * 
  * @param {String} searchTerm 
  * @param {String[]} excludedCapitals 
- * @return {String[]} array of capitals that match searchTerm
+ * @return {Observable<String[]>} array of capitals that match searchTerm
+ * @summary search in a local database, but mimic api behavior by returning an observable with 300ms delay
  */
 export function searchCapital(searchTerm, excludedCapitals) {
-    if (searchTerm.length < 1) {
-        return [];
-    } else {
-        return countries.map(country => country.capital)
-            .sort()
-            .filter(capital => capital)
-            .filter(capital => !excludedCapitals.find(value => value === capital))
-            .filter(capital => capital.toLowerCase().indexOf(searchTerm.toLowerCase()) === 0)
-            .slice(0, 8);
-    }
+    const source = (searchTerm.length < 1) ? [] : countries.map(country => country.capital)
+        .sort()
+        .filter(capital => capital)
+        .filter(capital => !excludedCapitals.find(value => value === capital))
+        .filter(capital => capital.toLowerCase().indexOf(searchTerm.toLowerCase()) === 0)
+        .slice(0, 8);
+
+        return of(source).pipe(
+            delay(300)
+        );
 }
 
 /**
@@ -25,7 +28,7 @@ export function searchCapital(searchTerm, excludedCapitals) {
  * @return {String} Timezone name of capital
  */
 export function getCapitalTimezone(capital) {
-    const country = countries.find(country => country.capital === capital);    
+    const country = countries.find(country => country.capital === capital);
     return country ? country.timezones.find(timezone => timezone.indexOf(capital) > -1) || country.timezones[0] : Intl.DateTimeFormat().resolvedOptions().timeZone;
 }
 

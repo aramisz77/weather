@@ -1,36 +1,56 @@
 .addcity {
-    margin:4rem auto;
-    width: 100%;
+  margin: 4rem auto;
+  width: 100%;
 }
 
-.addcity__list {  
-    margin: 0;
-    padding: 1rem 0;
+.addcity__list {
+  margin: 0;
+  padding: 1rem 0;
 }
 
 .addcity__selecteditem {
-    color: $color-background;
-    background-color: $color-text;
+  color: $color-background;
+  background-color: $color-text;
 }
 
 .addcity__input {
-    width: 100%;
-    border: none;
-    border-radius: 0;
-    border-bottom: 2px solid $color-strong;
-    outline: none;    
+  width: 100%;
+  border: none;
+  border-radius: 0;
+  border-bottom: 2px solid $color-strong;
+  outline: none;
 }
 
 .addcity__button {
-    border: none;   
-    outline: 0;
-    padding: 1rem 0; 
-    text-transform: uppercase;
-    font-weight: bold;
+  border: none;
+  outline: 0;
+  padding: 1rem 0;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.addcity_loader {
+  position: absolute;
+  right: 1rem;
+  border: 3px solid $color-background;
+  border-top: 3px solid $color-text;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @media (min-width: $screen-large) {
-    .addcity {
-      width: 33%;
-    }
+  .addcity {
+    width: 33%;
+  }
 }

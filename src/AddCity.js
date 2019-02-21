@@ -3,25 +3,46 @@ import { connect } from 'react-redux';
 import { fetchWeather } from './actions';
 import { searchCapital } from './captials';
 import Navbar from './Navbar';
+import { Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, tap, switchMap } from 'rxjs/operators';
 
 class AddCity extends Component {
 
     state = {
         searchTerm: '',
         currentOption: -1,
-        cityOptions: []
+        cityOptions: [],
+        loading: false
     }
 
     searchInput = React.createRef();
 
+    searchTerm$ = new Subject();
+
     componentDidMount() {
         this.searchInput.current.focus();
+
+        this.searchTerm$.pipe(
+            debounceTime(200),
+            distinctUntilChanged(),
+            tap(() => { this.setState({ loading: true }) }),
+            switchMap((term) => searchCapital(term, this.props.cities)),
+            tap(() => { this.setState({ loading: false }) }),
+        ).subscribe(cityOptions => {
+            this.setState({
+                currentOption: -1,
+                cityOptions: cityOptions
+            })
+        });
+    }
+
+    componentWillUnmount() {
+        this.searchTerm$.complete();
     }
 
     searchChange = (searchTerm) => {
-        const currentOption = -1;
-        const cityOptions = searchCapital(searchTerm, this.props.cities);
-        this.setState({ searchTerm, currentOption, cityOptions });
+        this.setState({ searchTerm: searchTerm });
+        this.searchTerm$.next(searchTerm);
     }
 
     searchKeyDown = (evt) => {
@@ -58,12 +79,13 @@ class AddCity extends Component {
         return (this.state.cityOptions.length === 1) && (this.state.cityOptions[0] === this.state.searchTerm);
     }
 
-    render() {        
+    render() {
         const canSave = this.canSave();
         return (
             <>
                 <Navbar></Navbar>
                 <div className="addcity">
+                    {this.state.loading && <div className="addcity_loader"></div>}
                     <input className="addcity__input"
                         type='text'
                         value={this.state.searchTerm}
