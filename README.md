@@ -1,6 +1,6 @@
 # Weather app
 
-Simple weather app. 
+Simple weather app. Working version at: http://scientific-crate.surge.sh/
 
 # Functionality
 # Home page: Cities.js
